@@ -308,7 +308,7 @@
             si: "පරිණතභාවය",
             my: "အသက်အရွယ် သတ်မှတ်ချက်",
             ka: "ასაკობრივი ზღვარი",
-            km: "កម្រិតអាយု"
+            km: "កម្រិតអាយុ"
         };
 
         const MATURITY_VALUE_TEXTS = {
@@ -321,8 +321,8 @@
                 lv: "Minimāls", lt: "Minimalus", hu: "Minimális", nl: "Minimaal", ro: "Minimă",
                 sq: "Minimale", sl: "Minimalno", sk: "Minimálna", fi: "Vähäinen", sv: "Minimal",
                 uk: "Мінімальний", cs: "Minimální", el: "Ελάχιστη", bs: "Minimalno", bg: "Минимална",
-                ru: "Минимальный", kk: "Минималды", bn: "ন्यूनतम", si: "අවම", my: "အနည်းဆုံး",
-                ka: "მინიმალური", km: "តិចတួចបំផុត"
+                ru: "Минимальный", kk: "Минималды", bn: "ন्यूनতম", si: "අවම", my: "အနည်းဆုံး",
+                ka: "მინიმალური", km: "តិចតួចបំផុត"
             },
             Mild: {
                 en: "Mild", ar: "بسيط", id: "Ringan", de: "Gering", es: "Leve",
@@ -333,7 +333,7 @@
                 lv: "Mērens", lt: "Švelnus", hu: "Enyhe", nl: "Licht", ro: "Ușoară",
                 sq: "E lehtë", sl: "Blago", sk: "Mierna", fi: "Lievä", sv: "Mild",
                 uk: "Помірний", cs: "Mírná", el: "Ήπια", bs: "Blago", bg: "Лека",
-                ru: "Умеренный", kk: "Жеңіл", bn: "हালকা", si: "සහනශීලී", my: "သာမန်",
+                ru: "Умеренный", kk: "Жеңіл", bn: "হালকা", si: "සහනශීලී", my: "သာမန်",
                 ka: "მსუბუქი", km: "ស្រាល"
             },
             Moderate: {
@@ -370,7 +370,7 @@
                 sq: "I pavlerësuar", sl: "Neocenjeno", sk: "Nehodnotené", fi: "Arvioimaton", sv: "Ej bedömd",
                 uk: "Без рейтингу", cs: "Nehodnoceno", el: "Χωρίς αξιολόγηση", bs: "Neocijenjeno", bg: "Без оценка",
                 ru: "Без рейтинга", kk: "Бағаланбаған", bn: "রেটিং ছাড়া", si: "වර්ගීකරණය කර නැත", my: "အဆင့်မသတ်မှတ်ရသေးပါ",
-                ka: "შეუფასებელი", km: "មិនទាន់បានវายតម្លៃ"
+                ka: "შეუფასებელი", km: "មិនទាន់បានវាយតម្លៃ"
             }
         };
         MATURITY_VALUE_TEXTS.AllAges = MATURITY_VALUE_TEXTS.Minimal;
@@ -379,6 +379,8 @@
         MATURITY_VALUE_TEXTS["9+"] = MATURITY_VALUE_TEXTS.Mild;
         MATURITY_VALUE_TEXTS["13+"] = MATURITY_VALUE_TEXTS.Moderate;
         MATURITY_VALUE_TEXTS["17+"] = MATURITY_VALUE_TEXTS.Restricted;
+
+        let currentRunId = 0;
 
         const getLangCode = () => {
             let code = "";
@@ -429,16 +431,27 @@
             return getSimpleTranslation(dict);
         };
 
-        const fetchWithRetry = async (url, options = {}, retries = 3, delay = 1000) => {
-            for (let i = 0; i < retries; i++) {
+        const fetchWithRetry = async (url, options = {}, delay = 1500, runId = null) => {
+            let currentDelay = delay;
+            while (true) {
+                if (runId && runId !== currentRunId) return null;
                 try {
                     const res = await fetch(url, options);
+                    if (runId && runId !== currentRunId) return null;
                     if (res.ok) return res;
-                    if (res.status !== 429 && res.status < 500) return res;
+                    if (res.status === 429) {
+                        const retryAfter = res.headers.get("Retry-After");
+                        const waitTime = retryAfter ? parseInt(retryAfter, 10) * 1000 : currentDelay;
+                        await new Promise(resolve => setTimeout(resolve, waitTime));
+                        currentDelay = Math.min(currentDelay * 1.5, 10000);
+                        continue;
+                    }
+                    if (res.status < 500) return res;
                 } catch {}
-                await new Promise(resolve => setTimeout(resolve, delay * (i + 1)));
+                if (runId && runId !== currentRunId) return null;
+                await new Promise(resolve => setTimeout(resolve, currentDelay));
+                currentDelay = Math.min(currentDelay * 1.5, 10000);
             }
-            return fetch(url, options);
         };
 
         const getCsrfToken = () => {
@@ -451,7 +464,7 @@
             await new Promise(resolve => setTimeout(resolve, 3000));
             try {
                 const thumbRes = await fetchWithRetry(`https://thumbnails.roblox.com/v1/users/avatar-headshot?userIds=${userIds.join(',')}&size=150x150&format=Png&isCircular=true`);
-                if (!thumbRes.ok) return;
+                if (!thumbRes || !thumbRes.ok) return;
                 const thumbData = await thumbRes.json();
                 const thumbs = thumbData.data || [];
                 const remainingIds = [];
@@ -470,14 +483,15 @@
             } catch {}
         };
 
-        const fetchUserFriendIds = async (userId) => {
+        const fetchUserFriendIds = async (userId, runId) => {
             try {
                 const friends = [];
                 let cursor = "";
                 while (true) {
+                    if (runId && runId !== currentRunId) return [];
                     const url = `https://friends.roblox.com/v1/users/${userId}/friends/find?limit=50${cursor ? `&cursor=${cursor}` : ""}`;
-                    const res = await fetchWithRetry(url, { credentials: "include" });
-                    if (!res.ok) break;
+                    const res = await fetchWithRetry(url, { credentials: "include" }, 1500, runId);
+                    if (!res || !res.ok) break;
                     const data = await res.json();
                     const items = data.PageItems || [];
                     friends.push(...items.map(f => f.id));
@@ -581,8 +595,8 @@
                     } catch {}
                 }
 
-                const detailsData = detailsRes.ok ? await detailsRes.json() : {};
-                const thumbData = thumbRes.ok ? await thumbRes.json() : {};
+                const detailsData = (detailsRes && detailsRes.ok) ? await detailsRes.json() : {};
+                const thumbData = (thumbRes && thumbRes.ok) ? await thumbRes.json() : {};
                 const gameInfo = detailsData.data?.[0] || {};
                 const thumbInfo = thumbData.data?.[0] || {};
 
@@ -681,9 +695,10 @@
         };
 
         const runMutualFriends = async (targetId) => {
+            const runId = ++currentRunId;
             try {
-                const authRes = await fetchWithRetry("https://users.roblox.com/v1/users/authenticated", { credentials: "include" });
-                if (!authRes.ok) return;
+                const authRes = await fetchWithRetry("https://users.roblox.com/v1/users/authenticated", { credentials: "include" }, 1500, runId);
+                if (!authRes || !authRes.ok) return;
                 const authData = await authRes.json();
                 const currentId = authData.id;
 
@@ -716,9 +731,14 @@
                 buttonsContainer.appendChild(loadingIndicator);
 
                 const [ownFriendIds, targetFriendIds] = await Promise.all([
-                    fetchUserFriendIds(currentId),
-                    fetchUserFriendIds(targetId)
+                    fetchUserFriendIds(currentId, runId),
+                    fetchUserFriendIds(targetId, runId)
                 ]);
+
+                if (runId !== currentRunId) {
+                    loadingIndicator.remove();
+                    return;
+                }
 
                 const mutualIds = ownFriendIds.filter(id => targetFriendIds.includes(id));
 
@@ -734,15 +754,15 @@
                         method: "POST",
                         headers: { "Content-Type": "application/json" },
                         body: JSON.stringify({ userIds: chunk, excludeBannedUsers: false })
-                    });
-                    if (!detailsRes.ok) return [];
+                    }, 1500, runId);
+                    if (!detailsRes || !detailsRes.ok) return [];
                     const detailsData = await detailsRes.json();
                     return detailsData.data || [];
                 });
 
                 const thumbPromises = mutualChunks.map(async (chunk) => {
-                    const thumbRes = await fetchWithRetry(`https://thumbnails.roblox.com/v1/users/avatar-headshot?userIds=${chunk.join(',')}&size=150x150&format=Png&isCircular=true`);
-                    if (!thumbRes.ok) return [];
+                    const thumbRes = await fetchWithRetry(`https://thumbnails.roblox.com/v1/users/avatar-headshot?userIds=${chunk.join(',')}&size=150x150&format=Png&isCircular=true`, {}, 1500, runId);
+                    if (!thumbRes || !thumbRes.ok) return [];
                     const thumbData = await thumbRes.json();
                     return thumbData.data || [];
                 });
@@ -751,6 +771,11 @@
                     Promise.all(detailsPromises),
                     Promise.all(thumbPromises)
                 ]);
+
+                if (runId !== currentRunId) {
+                    loadingIndicator.remove();
+                    return;
+                }
 
                 const friends = detailsChunks.flat();
                 const thumbs = thumbChunks.flat();
@@ -763,21 +788,21 @@
                 const badgeAndPremiumPromises = friends.map(async (f) => {
                     try {
                         const [badgeRes, premiumRes] = await Promise.all([
-                            fetchWithRetry(`https://accountinformation.roblox.com/v1/users/${f.id}/roblox-badges`),
+                            fetchWithRetry(`https://accountinformation.roblox.com/v1/users/${f.id}/roblox-badges`, {}, 1500, runId),
                             fetchWithRetry(`https://premiumfeatures.roblox.com/v1/users/${f.id}/validate-membership`, {
                                 credentials: "include",
                                 headers: { "X-CSRF-TOKEN": csrf }
-                            })
+                            }, 1500, runId)
                         ]);
                         
                         let isAdmin = false;
-                        if (badgeRes.ok) {
+                        if (badgeRes && badgeRes.ok) {
                             const badges = await badgeRes.json();
                             isAdmin = Array.isArray(badges) && badges.some(b => b.id === 1);
                         }
                         
                         let isPremium = false;
-                        if (premiumRes.ok) {
+                        if (premiumRes && premiumRes.ok) {
                             const text = await premiumRes.text();
                             isPremium = text.includes("true");
                         }
@@ -788,6 +813,11 @@
                     }
                 });
                 const badgeAndPremiumResult = await Promise.all(badgeAndPremiumPromises);
+
+                if (runId !== currentRunId) {
+                    loadingIndicator.remove();
+                    return;
+                }
 
                 const pendingThumbnails = [];
                 const friendsWithThumbs = friends.map(f => {
@@ -1013,8 +1043,8 @@
                                         },
                                         body: JSON.stringify({ userIds: chunk }),
                                         credentials: "include"
-                                    });
-                                    if (!presenceRes.ok) return [];
+                                    }, 1500, runId);
+                                    if (!presenceRes || !presenceRes.ok) return [];
                                     const presenceData = await presenceRes.json();
                                     return presenceData.userPresences || [];
                                 } catch {
@@ -1023,6 +1053,8 @@
                             });
                             const presenceChunks = await Promise.all(presencePromises);
                             const freshPresences = presenceChunks.flat();
+
+                            if (runId !== currentRunId) return;
 
                             friendsWithThumbs.forEach(f => {
                                 const p = freshPresences.find(item => item.userId === f.id) || { userPresenceType: 0 };
@@ -1172,7 +1204,7 @@
             if (!usernameSpan) return;
 
             lastUserId = targetId;
-            runMutualFriends(parseInt(targetId));
+            runMutualFriends(parseInt(targetId, 10));
         };
 
         const observer = new MutationObserver(checkPage);
