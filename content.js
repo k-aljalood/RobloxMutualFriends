@@ -750,14 +750,23 @@
                 const mutualChunks = chunkArray(mutualIds, 100);
 
                 const detailsPromises = mutualChunks.map(async (chunk) => {
-                    const detailsRes = await fetchWithRetry("https://users.roblox.com/v1/users", {
+                    const detailsRes = await fetchWithRetry("https://apis.roblox.com/user-profile-api/v1/user/profiles/get-profiles", {
                         method: "POST",
                         headers: { "Content-Type": "application/json" },
-                        body: JSON.stringify({ userIds: chunk, excludeBannedUsers: false })
+                        body: JSON.stringify({
+                            userIds: chunk,
+                            fields: ["names.displayName", "names.username", "isVerified"]
+                        })
                     }, 1500, runId);
                     if (!detailsRes || !detailsRes.ok) return [];
                     const detailsData = await detailsRes.json();
-                    return detailsData.data || [];
+                    const profiles = detailsData.profileDetails || [];
+                    return profiles.map(p => ({
+                        id: p.userId,
+                        name: p.names?.username || "",
+                        displayName: p.names?.displayName || p.names?.combinedName || p.names?.username || "",
+                        hasVerifiedBadge: p.isVerified || false
+                    }));
                 });
 
                 const thumbPromises = mutualChunks.map(async (chunk) => {
@@ -785,44 +794,9 @@
                     return;
                 }
 
-                const badgeAndPremiumPromises = friends.map(async (f) => {
-                    try {
-                        const [badgeRes, premiumRes] = await Promise.all([
-                            fetchWithRetry(`https://accountinformation.roblox.com/v1/users/${f.id}/roblox-badges`, {}, 1500, runId),
-                            fetchWithRetry(`https://premiumfeatures.roblox.com/v1/users/${f.id}/validate-membership`, {
-                                credentials: "include",
-                                headers: { "X-CSRF-TOKEN": csrf }
-                            }, 1500, runId)
-                        ]);
-                        
-                        let isAdmin = false;
-                        if (badgeRes && badgeRes.ok) {
-                            const badges = await badgeRes.json();
-                            isAdmin = Array.isArray(badges) && badges.some(b => b.id === 1);
-                        }
-                        
-                        let isPremium = false;
-                        if (premiumRes && premiumRes.ok) {
-                            const text = await premiumRes.text();
-                            isPremium = text.includes("true");
-                        }
-                        
-                        return { id: f.id, isAdmin, isPremium };
-                    } catch {
-                        return { id: f.id, isAdmin: false, isPremium: false };
-                    }
-                });
-                const badgeAndPremiumResult = await Promise.all(badgeAndPremiumPromises);
-
-                if (runId !== currentRunId) {
-                    loadingIndicator.remove();
-                    return;
-                }
-
                 const pendingThumbnails = [];
                 const friendsWithThumbs = friends.map(f => {
                     const t = thumbs.find(item => item.targetId === f.id);
-                    const b = badgeAndPremiumResult.find(item => item.id === f.id);
                     const completed = t && t.state === "Completed";
                     if (!completed) {
                         pendingThumbnails.push(f.id);
@@ -831,8 +805,6 @@
                         ...f,
                         avatarUrl: completed ? t.imageUrl : "https://tr.rbxcdn.com/30day-avatarheadshot-75x75-png/150/150/AvatarHeadshot/Png/isCircular",
                         hasVerifiedBadge: f.hasVerifiedBadge || false,
-                        isAdmin: b ? b.isAdmin : false,
-                        isPremium: b ? b.isPremium : false,
                         presence: { userPresenceType: 0 }
                     };
                 });
@@ -982,27 +954,15 @@
 
                     friendsWithThumbs.forEach(f => {
                         let badgesHTML = '';
-                        if (f.hasVerifiedBadge || f.isPremium || f.isAdmin) {
-                            badgesHTML += `<span class="items-center gap-xxsmall inline-flex shrink-0 [--icon-size-small:1em]">`;
-                            if (f.hasVerifiedBadge) {
-                                badgesHTML += `
+                        if (f.hasVerifiedBadge) {
+                            badgesHTML = `
+                                <span class="items-center gap-xxsmall inline-flex shrink-0 [--icon-size-small:1em]">
                                     <span class="relative flex items-center justify-center">
                                         <span role="presentation" class="grow-0 shrink-0 basis-auto icon icon-filled-verified-backplate size-[var(--icon-size-small)] content-system-emphasis"></span>
                                         <span role="presentation" class="grow-0 shrink-0 basis-auto icon icon-filled-verified-check size-[var(--icon-size-small)] absolute" style="color: white;"></span>
                                     </span>
-                                `;
-                            }
-                            if (f.isPremium) {
-                                badgesHTML += `
-                                    <span role="presentation" class="grow-0 shrink-0 basis-auto icon icon-regular-roblox-plus size-[var(--icon-size-small)] content-system-contrast" aria-label="Roblox Plus subscriber"></span>
-                                `;
-                            }
-                            if (f.isAdmin) {
-                                badgesHTML += `
-                                    <span role="presentation" class="grow-0 shrink-0 basis-auto icon icon-filled-tilt size-[var(--icon-size-small)] content-system-contrast"></span>
-                                `;
-                            }
-                            badgesHTML += `</span>`;
+                                </span>
+                            `;
                         }
 
                         const item = document.createElement("a");
@@ -1021,7 +981,7 @@
                             </div>
                             <div class="flex flex-col relative" style="flex: 1; white-space: nowrap; margin-right: 12px; min-width: max-content;">
                                 <span class="text-label-large items-center gap-xsmall flex" style="color: inherit; white-space: nowrap;">
-                                    <span dir="auto" class="text-truncate-end">${f.displayName}</span>
+                                    <span dir="auto" class="text-truncate-end" style="padding-bottom: 2px; margin-bottom: -2px;">${f.displayName}</span>
                                     ${badgesHTML}
                                 </span>
                                 <span class="text-body-small content-secondary text-truncate-end" style="white-space: nowrap;">@${f.name}</span>
@@ -1068,9 +1028,6 @@
                                 if (p.userPresenceType === 2 && p.gameId) {
                                     const joinContainer = listContainer.querySelector(`[data-join-container-id="${f.id}"]`);
                                     if (joinContainer && !joinContainer.querySelector('.custom-mutual-join-btn')) {
-                                        if (p.universeId) {
-                                            fetchGameDetails(p.universeId, f.id);
-                                        }
                                         const joinText = getSimpleTranslation(JOIN_TEXTS);
                                         joinContainer.innerHTML = `
                                             <button type="button" class="foundation-web-button relative clip group/interactable focus-visible:outline-focus disabled:outline-none cursor-pointer relative flex items-center justify-center stroke-none padding-y-none select-none radius-medium text-label-medium height-800 padding-x-medium bg-action-emphasis content-action-emphasis custom-mutual-join-btn" style="text-decoration: none; width: 100%;" data-place-id="${p.placeId}" data-game-id="${p.gameId}" data-universe-id="${p.universeId}" data-user-id="${f.id}">
