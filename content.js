@@ -84,7 +84,6 @@
                     z-index: 2 !important;
                     pointer-events: auto !important;
                 }
-                .custom-account-item .profile-avatar-status,
                 .custom-account-item [data-testid="presence-icon"] {
                     width: 28px !important;
                     height: 28px !important;
@@ -150,7 +149,7 @@
             uk: { singular: "1 спільний", plural: "{count} спільних" },
             cs: { singular: "1 společný", plural: "{count} společných" },
             el: { singular: "1 κοινός", plural: "{count} κοινοί" },
-            bs: { singular: "1 zajednički", plural: "{count} zajedničkih" },
+            bs: { singular: "1 zajednički", plural: "{count} zajedničких" },
             bg: { singular: "1 общ", plural: "{count} общи" },
             ru: { singular: "1 общий", plural: "{count} общих" },
             kk: { singular: "1 ортақ", plural: "{count} ортақ" },
@@ -200,7 +199,7 @@
             uk: { singular: "1 спільний друг", plural: "{count} спільних друзів" },
             cs: { singular: "1 společný přítel", plural: "{count} společných přátel" },
             el: { singular: "1 κοινός φίλος", plural: "{count} κοινοί φίλοι" },
-            bs: { singular: "1 zajednički prijatelj", plural: "{count} zajedničkih prijatelja" },
+            bs: { singular: "1 zajednički prijatelj", plural: "{count} zajedničких prijatelja" },
             bg: { singular: "1 общ приятел", plural: "{count} общи приятели" },
             ru: { singular: "1 общий друг", plural: "{count} общих друзей" },
             kk: { singular: "1 ортақ дос", plural: "{count} ортақ дос" },
@@ -357,7 +356,7 @@
                 lv: "Ierobežots", lt: "Ribotas", hu: "Korlátozott", nl: "Beperkt", ro: "Restricționată",
                 sq: "E kufizuar", sl: "Omejeno", sk: "Obmedzená", fi: "Rajoitettu", sv: "Begränsad",
                 uk: "Обмежений", cs: "Omezená", el: "Περιορισμένη", bs: "Ograničeno", bg: "Ограничена",
-                ru: "Ограниченный", kk: "Шектеулі", bn: "সীমিত", si: "සීමිත", my: "ကန့်သတ်ထားသော",
+                ru: "Ограниченный", kk: "Шектеулі", bn: "সীमित", si: "සීමිත", my: "ကန့်သတ်ထားသော",
                 ka: "შეზღუდული", km: "ត្រូវបានកម្រិត"
             },
             Unrated: {
@@ -459,28 +458,46 @@
             return meta ? meta.getAttribute('data-token') : '';
         };
 
-        const pollPendingThumbnails = async (userIds, attempt = 0) => {
-            if (userIds.length === 0 || attempt >= 5) return;
+        const pollPendingThumbnails = async (userIds, friendsList = null, runId = null) => {
+            if (userIds.length === 0) return;
+            if (runId && runId !== currentRunId) return;
             await new Promise(resolve => setTimeout(resolve, 3000));
+            if (runId && runId !== currentRunId) return;
             try {
-                const thumbRes = await fetchWithRetry(`https://thumbnails.roblox.com/v1/users/avatar-headshot?userIds=${userIds.join(',')}&size=150x150&format=Png&isCircular=true`);
-                if (!thumbRes || !thumbRes.ok) return;
+                const thumbRes = await fetchWithRetry(`https://thumbnails.roblox.com/v1/users/avatar-headshot?userIds=${userIds.join(',')}&size=150x150&format=Png&isCircular=false&includeBackground=true`, {}, 1500, runId);
+                if (runId && runId !== currentRunId) return;
+                if (!thumbRes || !thumbRes.ok) {
+                    pollPendingThumbnails(userIds, friendsList, runId);
+                    return;
+                }
                 const thumbData = await thumbRes.json();
                 const thumbs = thumbData.data || [];
                 const remainingIds = [];
 
                 thumbs.forEach(t => {
-                    if (t.state === "Completed") {
+                    if (t.state === "Completed" && t.imageUrl) {
+                        if (friendsList) {
+                            const friend = friendsList.find(f => f.id === t.targetId);
+                            if (friend) friend.avatarUrl = t.imageUrl;
+                        }
+                        const idx = userIds.indexOf(t.targetId);
+                        if (idx !== -1) userIds.splice(idx, 1);
                         const img = document.querySelector(`img[data-user-id="${t.targetId}"]`);
                         if (img) img.src = t.imageUrl;
+                    } else if (t.state === "Blocked") {
+                        const idx = userIds.indexOf(t.targetId);
+                        if (idx !== -1) userIds.splice(idx, 1);
                     } else {
                         remainingIds.push(t.targetId);
                     }
                 });
                 if (remainingIds.length > 0) {
-                    pollPendingThumbnails(remainingIds, attempt + 1);
+                    pollPendingThumbnails(remainingIds, friendsList, runId);
                 }
-            } catch {}
+            } catch {
+                if (runId && runId !== currentRunId) return;
+                pollPendingThumbnails(userIds, friendsList, runId);
+            }
         };
 
         const fetchUserFriendIds = async (userId, runId) => {
@@ -515,55 +532,36 @@
         const gameDetailsCache = {};
         let activeTooltip = null;
 
-        const fetchGameDetails = async (universeId, userId = null) => {
-            const cacheKey = userId ? `${universeId}_${userId}` : `${universeId}`;
+        const fetchGameDetails = async (universeId, userId) => {
+            const cacheKey = `${universeId}_${userId}`;
             if (gameDetailsCache[cacheKey]) return gameDetailsCache[cacheKey];
             if (gameDetailsCache[universeId]) return gameDetailsCache[universeId];
             try {
                 const langCode = getLangCode();
                 const csrf = getCsrfToken();
-                const numId = parseInt(universeId, 10);
 
-                const fetchPromises = [
+                const results = await Promise.all([
                     fetchWithRetry(`https://games.roblox.com/v1/games?universeIds=${universeId}`, {
                         credentials: "include",
                         headers: { "Accept-Language": langCode }
                     }),
-                    fetchWithRetry(`https://thumbnails.roblox.com/v1/games/icons?universeIds=${universeId}&size=150x150&format=Png&isCircular=false`)
-                ];
+                    fetchWithRetry(`https://thumbnails.roblox.com/v1/games/icons?universeIds=${universeId}&size=150x150&format=Png&isCircular=false`),
+                    fetchWithRetry(`https://apis.roblox.com/profile-platform-api/v1/profiles/get`, {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                            "X-CSRF-TOKEN": csrf,
+                            "Accept-Language": langCode
+                        },
+                        body: JSON.stringify({
+                            profileId: String(userId),
+                            profileType: "User",
+                            components: [{ component: "CurrentlyPlaying" }]
+                        }),
+                        credentials: "include"
+                    })
+                ]);
 
-                if (userId) {
-                    fetchPromises.push(
-                        fetchWithRetry(`https://apis.roblox.com/profile-platform-api/v1/profiles/get`, {
-                            method: "POST",
-                            headers: {
-                                "Content-Type": "application/json",
-                                "X-CSRF-TOKEN": csrf,
-                                "Accept-Language": langCode
-                            },
-                            body: JSON.stringify({
-                                profileId: String(userId),
-                                profileType: "User",
-                                components: [{ component: "CurrentlyPlaying" }]
-                            }),
-                            credentials: "include"
-                        })
-                    );
-                } else {
-                    fetchPromises.push(
-                        fetchWithRetry(`https://apis.roblox.com/experience-guidelines-service/v1beta1/multi-age-recommendation`, {
-                            method: "POST",
-                            headers: {
-                                "Content-Type": "application/json",
-                                "X-CSRF-TOKEN": csrf
-                            },
-                            body: JSON.stringify({ universeIds: [numId] }),
-                            credentials: "include"
-                        })
-                    );
-                }
-
-                const results = await Promise.all(fetchPromises);
                 const detailsRes = results[0];
                 const thumbRes = results[1];
                 const maturityRes = results[2];
@@ -573,24 +571,10 @@
                 if (maturityRes && maturityRes.ok) {
                     try {
                         const matData = await maturityRes.json();
-                        if (userId) {
-                            const playing = matData.components?.CurrentlyPlaying;
-                            const summary = playing?.ageRecommendation?.ageRecommendationSummary?.ageRecommendation;
-                            if (summary) {
-                                rawMaturity = summary.contentMaturity || summary.displayName;
-                            }
-                        } else {
-                            const arr = matData.ageRecommendationDetailsByUniverse || matData.ageRecommendationDetails || matData;
-                            let item = null;
-                            if (Array.isArray(arr)) {
-                                item = arr.find(x => x && (x.universeId == numId || x.universeId == universeId));
-                            } else if (typeof arr === 'object' && arr !== null) {
-                                item = arr[universeId] || arr[numId] || arr[String(numId)];
-                            }
-                            if (item) {
-                                const summary = item.ageRecommendationSummary || item.ageRecommendationDetails || item;
-                                rawMaturity = summary.ageRecommendationType || summary.ageRecommendation || summary.displayName || summary.name;
-                            }
+                        const playing = matData.components?.CurrentlyPlaying;
+                        const summary = playing?.ageRecommendation?.ageRecommendationSummary?.ageRecommendation;
+                        if (summary) {
+                            rawMaturity = summary.contentMaturity || summary.displayName;
                         }
                     } catch {}
                 }
@@ -599,17 +583,6 @@
                 const thumbData = (thumbRes && thumbRes.ok) ? await thumbRes.json() : {};
                 const gameInfo = detailsData.data?.[0] || {};
                 const thumbInfo = thumbData.data?.[0] || {};
-
-                if (!rawMaturity) {
-                    const pagePlayingCard = document.querySelector('.currently-playing-card .text-body-medium');
-                    if (pagePlayingCard && pagePlayingCard.textContent) {
-                        const cardText = pagePlayingCard.textContent;
-                        const parts = cardText.split(':');
-                        if (parts.length > 1) {
-                            rawMaturity = parts[1].trim();
-                        }
-                    }
-                }
 
                 if (!rawMaturity) {
                     rawMaturity = gameInfo.ageGuidelines?.ageRecommendationType || gameInfo.ageRating || "Unrated";
@@ -770,7 +743,7 @@
                 });
 
                 const thumbPromises = mutualChunks.map(async (chunk) => {
-                    const thumbRes = await fetchWithRetry(`https://thumbnails.roblox.com/v1/users/avatar-headshot?userIds=${chunk.join(',')}&size=150x150&format=Png&isCircular=true`, {}, 1500, runId);
+                    const thumbRes = await fetchWithRetry(`https://thumbnails.roblox.com/v1/users/avatar-headshot?userIds=${chunk.join(',')}&size=150x150&format=Png&isCircular=false&includeBackground=true`, {}, 1500, runId);
                     if (!thumbRes || !thumbRes.ok) return [];
                     const thumbData = await thumbRes.json();
                     return thumbData.data || [];
@@ -797,13 +770,15 @@
                 const pendingThumbnails = [];
                 const friendsWithThumbs = friends.map(f => {
                     const t = thumbs.find(item => item.targetId === f.id);
-                    const completed = t && t.state === "Completed";
+                    const completed = t && t.state === "Completed" && t.imageUrl;
                     if (!completed) {
-                        pendingThumbnails.push(f.id);
+                        if (!t || t.state !== "Blocked") {
+                            pendingThumbnails.push(f.id);
+                        }
                     }
                     return {
                         ...f,
-                        avatarUrl: completed ? t.imageUrl : "https://tr.rbxcdn.com/30day-avatarheadshot-75x75-png/150/150/AvatarHeadshot/Png/isCircular",
+                        avatarUrl: completed ? t.imageUrl : "https://tr.rbxcdn.com/30day-avatarheadshot-75x75-png/150/150/AvatarHeadshot/Png/noFilter",
                         hasVerifiedBadge: f.hasVerifiedBadge || false,
                         presence: { userPresenceType: 0 }
                     };
@@ -1052,7 +1027,7 @@
                             const gameId = btn.getAttribute("data-game-id");
                             const userId = btn.getAttribute("data-user-id");
                             
-                            const robloxObj = window.Roblox || (typeof unsafeWindow !== 'undefined' ? unsafeWindow.Roblox : null);
+                            const robloxObj = window.Roblox;
 
                             if (robloxObj && robloxObj.GameLauncher) {
                                 if (placeId && gameId) {
@@ -1140,7 +1115,7 @@
                         overlayMouseDown = false;
                     });
 
-                    pollPendingThumbnails(pendingThumbnails);
+                    pollPendingThumbnails(pendingThumbnails, friendsWithThumbs, runId);
                 });
 
                 buttonsContainer.appendChild(pill);
