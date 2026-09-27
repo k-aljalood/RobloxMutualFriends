@@ -2,6 +2,9 @@
 
 (async () => {
     try {
+        const ICON_BROKEN = "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbDpzcGFjZT0icHJlc2VydmUiIGlkPSJMYXllcl8xIiB3aWR0aD0iOTAiIGhlaWdodD0iOTAiIHg9IjAiIHk9IjAiIHZpZXdCb3g9IjAgMCA5MCA5MCI+PHN0eWxlPi5zdDJ7ZmlsbDpub25lO3N0cm9rZTojMDAwO3N0cm9rZS13aWR0aDoyO3N0cm9rZS1saW5lY2FwOnJvdW5kO3N0cm9rZS1saW5lam9pbjpyb3VuZDtzdHJva2UtbWl0ZXJsaW1pdDoxMH08L3N0eWxlPjxnIGlkPSJib3JrZW4iPjxwYXRoIGlkPSJiZyIgZD0iTTAgMGg5MHY5MEgweiIgc3R5bGU9ImZpbGw6IzY1NjY2OCIvPjxnIGlkPSJicm9rZW4iIHN0eWxlPSJvcGFjaXR5Oi4zIj48cGF0aCBkPSJNNTEuMiAyMy41djEwLjNoMTAuM00yOC41IDQ4Ljl2MTcuNmgzM1Y1My44bC0xMS01LTExIDUtMTEtNXoiIGNsYXNzPSJzdDIiLz48cGF0aCBkPSJNNjEuNSAzMy44IDUxLjIgMjMuNUgyOC41VjQxbDExIDUgMTEtNSAxMSA1eiIgY2xhc3M9InN0MiIvPjwvZz48L2c+PC9zdmc+";
+        const ICON_BLOCKED = "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbDpzcGFjZT0icHJlc2VydmUiIGlkPSJMYXllcl8xIiB3aWR0aD0iOTAiIGhlaWdodD0iOTAiIHg9IjAiIHk9IjAiIHZpZXdCb3g9IjAgMCA5MCA5MCI+PHN0eWxlPi5zdDJ7ZmlsbDpub25lO3N0cm9rZTojMDAwO3N0cm9rZS13aWR0aDoyO3N0cm9rZS1saW5lY2FwOnJvdW5kO3N0cm9rZS1saW5lam9pbjpyb3VuZDtzdHJva2UtbWl0ZXJsaW1pdDoxMH08L3N0eWxlPjxnIGlkPSJ1bmFwcHJvdmVkXzFfIj48cGF0aCBpZD0iYmdfMl8iIGQ9Ik0wIDBoOTB2OTBIMHoiIHN0eWxlPSJmaWxsOiM2NTY2NjgiLz48ZyBpZD0idW5hcHByb3ZlZCIgc3R5bGU9Im9wYWNpdHk6LjMiPjxjaXJjbGUgY3g9IjQ1IiBjeT0iNDguOCIgcj0iMTAiIGNsYXNzPSJzdDIiLz48cGF0aCBkPSJtMzggNDEuNyAxNCAxNC4xTTMyLjUgMjMuNWgtNHY0TTI4LjUgNjIuNXY0aDRNMjguNSAzMS44djZNMjguNSA0MnY2TTI4LjUgNTIuMnY2TTU3LjUgNjYuNWg0di00TTYxLjUgNTguMnYtNk02MS41IDQ4di02TTYxLjUgMzcuOHYtNE0zNi44IDY2LjVoNk00Ny4yIDY2LjVoNk0zNi44IDIzLjVoNk00Ny4yIDIzLjVoNE01MS40IDIzLjZsMy41IDMuNU01Ny45IDMwLjFsMy41IDMuNU01MS4yIDIzLjh2M001OC41IDMzLjhoM001MS4yIDMwLjJ2My42aDMuNiIgY2xhc3M9InN0MiIvPjwvZz48L2c+PC9zdmc+";
+
         let style = document.getElementById("custom-mutual-styles");
         if (!style) {
             style = document.createElement('style');
@@ -125,6 +128,10 @@
             hi: { singular: "1 आपसी", plural: "{count} आपसी" },
             th: { singular: "ร่วมกัน 1 คน", plural: "ร่วมกัน {count} คน" },
             zh: { singular: "1 个共同好友", plural: "{count} 个共同好友" },
+            zh_cn: { singular: "1 个共同好友", plural: "{count} 个共同好友" },
+            zh_tw: { singular: "1 個共同好友", plural: "{count} 個共同好友" },
+            zh_hans: { singular: "1 个共同好友", plural: "{count} 个共同好友" },
+            zh_hant: { singular: "1 個共同好友", plural: "{count} 個共同好友" },
             ja: { singular: "1人の共通のフレンド", plural: "{count}人の共通のフレンド" },
             ko: { singular: "1명의 함께 아는 친구", plural: "{count}명의 함께 아는 친구" },
             ms: { singular: "1 Mutual", plural: "{count} Mutual" },
@@ -149,7 +156,7 @@
             uk: { singular: "1 спільний", plural: "{count} спільних" },
             cs: { singular: "1 společný", plural: "{count} společných" },
             el: { singular: "1 κοινός", plural: "{count} κοινοί" },
-            bs: { singular: "1 zajednički", plural: "{count} zajedničких" },
+            bs: { singular: "1 zajednički", plural: "{count} zajedničkih" },
             bg: { singular: "1 общ", plural: "{count} общи" },
             ru: { singular: "1 общий", plural: "{count} общих" },
             kk: { singular: "1 ортақ", plural: "{count} ортақ" },
@@ -175,6 +182,10 @@
             hi: { singular: "1 आपसी मित्र", plural: "{count} आपसी मित्र" },
             th: { singular: "เพื่อนร่วมกัน 1 คน", plural: "เพื่อนร่วมกัน {count} คน" },
             zh: { singular: "1 个共同好友", plural: "{count} 个共同好友" },
+            zh_cn: { singular: "1 个共同好友", plural: "{count} 个共同好友" },
+            zh_tw: { singular: "1 個共同好友", plural: "{count} 個共同好友" },
+            zh_hans: { singular: "1 个共同好友", plural: "{count} 个共同好友" },
+            zh_hant: { singular: "1 個共同好友", plural: "{count} 個共同好友" },
             ja: { singular: "1人の共通のフレンド", plural: "{count}人の共通のフレンド" },
             ko: { singular: "1명의 함께 아는 친구", plural: "{count}명의 함께 아는 친구" },
             ms: { singular: "1 rakan mutual", plural: "{count} rakan mutual" },
@@ -199,7 +210,7 @@
             uk: { singular: "1 спільний друг", plural: "{count} спільних друзів" },
             cs: { singular: "1 společný přítel", plural: "{count} společných přátel" },
             el: { singular: "1 κοινός φίλος", plural: "{count} κοινοί φίλοι" },
-            bs: { singular: "1 zajednički prijatelj", plural: "{count} zajedničких prijatelja" },
+            bs: { singular: "1 zajednički prijatelj", plural: "{count} zajedničkih prijatelja" },
             bg: { singular: "1 общ приятел", plural: "{count} общи приятели" },
             ru: { singular: "1 общий друг", plural: "{count} общих друзей" },
             kk: { singular: "1 ортақ дос", plural: "{count} ортақ дос" },
@@ -225,6 +236,10 @@
             hi: "शामिल हों",
             th: "เข้าร่วม",
             zh: "加入",
+            zh_cn: "加入",
+            zh_tw: "加入",
+            zh_hans: "加入",
+            zh_hant: "加入",
             ja: "参加",
             ko: "참여",
             ms: "Sertai",
@@ -249,7 +264,7 @@
             uk: "Приєднатися",
             cs: "Připojit se",
             el: "Συμμετοχή",
-            bs: "Pridruži се",
+            bs: "Pridruži se",
             bg: "Присъединяване",
             ru: "Присоединиться",
             kk: "Қосылу",
@@ -275,6 +290,10 @@
             hi: "परिपक्वता",
             th: "ระดับความเหมาะสม",
             zh: "分级",
+            zh_cn: "分级",
+            zh_tw: "分級",
+            zh_hans: "分级",
+            zh_hant: "分級",
             ja: "対象年齢",
             ko: "연령 등급",
             ms: "Kematangan",
@@ -314,19 +333,21 @@
             Minimal: {
                 en: "Minimal", ar: "محدود للغاية", id: "Minimal", de: "Minimal", es: "Mínima",
                 fr: "Minimale", it: "Minima", pl: "Minimalna", pt: "Mínima", vi: "Rất nhẹ",
-                tr: "En az", hi: "न्यूनतम", th: "น้อยที่สุด", zh: "极轻微", ja: "極めて軽微",
+                tr: "En az", hi: "न्यूनतम", th: "น้อยที่สุด", zh: "极轻微", zh_cn: "极轻微",
+                zh_tw: "極輕微", zh_hans: "极轻微", zh_hant: "極輕微", ja: "極めて軽微",
                 ko: "매우 낮음", ms: "Minimal", nb: "Minimal", no: "Minimal", sr: "Минимално",
                 da: "Minimal", et: "Minimaalne", fil: "Napakababa", tl: "Napakababa", hr: "Minimalno",
                 lv: "Minimāls", lt: "Minimalus", hu: "Minimális", nl: "Minimaal", ro: "Minimă",
                 sq: "Minimale", sl: "Minimalno", sk: "Minimálna", fi: "Vähäinen", sv: "Minimal",
                 uk: "Мінімальний", cs: "Minimální", el: "Ελάχιστη", bs: "Minimalno", bg: "Минимална",
-                ru: "Минимальный", kk: "Минималды", bn: "ন्यूनতম", si: "අවම", my: "အနည်းဆုံး",
+                ru: "Минимальный", kk: "Минималды", bn: "ন্যূনতম", si: "අවම", my: "အနည်းဆုံး",
                 ka: "მინიმალური", km: "តិចតួចបំផុត"
             },
             Mild: {
                 en: "Mild", ar: "بسيط", id: "Ringan", de: "Gering", es: "Leve",
                 fr: "Légère", it: "Lieve", pl: "Niska", pt: "Leve", vi: "Nhẹ",
-                tr: "Hafif", hi: "हल्का", th: "เบาบาง", zh: "轻微", ja: "軽微",
+                tr: "Hafif", hi: "हल्का", th: "เบาบาง", zh: "轻微", zh_cn: "轻微",
+                zh_tw: "輕微", zh_hans: "轻微", zh_hant: "輕微", ja: "軽微",
                 ko: "낮음", ms: "Ringan", nb: "Mild", no: "Mild", sr: "Blago",
                 da: "Mild", et: "Kerge", fil: "Bahagya", tl: "Bahagya", hr: "Blago",
                 lv: "Mērens", lt: "Švelnus", hu: "Enyhe", nl: "Licht", ro: "Ușoară",
@@ -338,7 +359,8 @@
             Moderate: {
                 en: "Moderate", ar: "معتدل", id: "Sedang", de: "Mäßig", es: "Moderada",
                 fr: "Modérée", it: "Moderata", pl: "Umiarkowana", pt: "Moderada", vi: "Vừa phải",
-                tr: "Orta", hi: "मध्यम", th: "ปานกลาง", zh: "中等", ja: "中度",
+                tr: "Orta", hi: "मध्यम", th: "ปานกลาง", zh: "中等", zh_cn: "中等",
+                zh_tw: "中等", zh_hans: "中等", zh_hant: "中等", ja: "中度",
                 ko: "보통", ms: "Sederhana", nb: "Moderat", no: "Moderat", sr: "Умерено",
                 da: "Moderat", et: "Mõõdukas", fil: "Katamtaman", tl: "Katamtaman", hr: "Umjereno",
                 lv: "Vidējs", lt: "Vidutinis", hu: "Közepes", nl: "Matig", ro: "Moderată",
@@ -350,19 +372,21 @@
             Restricted: {
                 en: "Restricted", ar: "مقيد", id: "Dibatasi", de: "Eingeschränkt", es: "Restringida",
                 fr: "Restreinte", it: "Ristretta", pl: "Ograniczona", pt: "Restrita", vi: "Bị giới hạn",
-                tr: "Kısıtlı", hi: "प्रतिबंधित", th: "จำกัด", zh: "受限", ja: "制限あり",
+                tr: "Kısıtlı", hi: "प्रतिबंधित", th: "จำกัด", zh: "受限", zh_cn: "受限",
+                zh_tw: "受限", zh_hans: "受限", zh_hant: "受限", ja: "制限あり",
                 ko: "제한됨", ms: "Dihadkan", nb: "Begrenset", no: "Begrenset", sr: "Ограничено",
                 da: "Begrænset", et: "Piiratud", fil: "Limitado", tl: "Limitado", hr: "Ograničeno",
                 lv: "Ierobežots", lt: "Ribotas", hu: "Korlátozott", nl: "Beperkt", ro: "Restricționată",
                 sq: "E kufizuar", sl: "Omejeno", sk: "Obmedzená", fi: "Rajoitettu", sv: "Begränsad",
                 uk: "Обмежений", cs: "Omezená", el: "Περιορισμένη", bs: "Ograničeno", bg: "Ограничена",
-                ru: "Ограниченный", kk: "Шектеулі", bn: "সীमित", si: "සීමිත", my: "ကန့်သတ်ထားသော",
+                ru: "Ограниченный", kk: "Шектеулі", bn: "সীমিত", si: "සීමිත", my: "ကန့်သတ်ထားသော",
                 ka: "შეზღუდული", km: "ត្រូវបានកម្រិត"
             },
             Unrated: {
                 en: "Unrated", ar: "غير مصنف", id: "Tidak Dinilai", de: "Nicht bewertet", es: "Sin clasificar",
                 fr: "Non évalué", it: "Non valutato", pl: "Brak oceny", pt: "Sem classificação", vi: "Chưa xếp loại",
-                tr: "Derecelendirilmemiş", hi: "अनरेटेड", th: "ยังไม่จัดประเภท", zh: "未分级", ja: "未評価",
+                tr: "Derecelendirilmemiş", hi: "अनरेटेड", th: "ยังไม่จัดประเภท", zh: "未分级", zh_cn: "未分级",
+                zh_tw: "未分級", zh_hans: "未分级", zh_hant: "未分級", ja: "未評価",
                 ko: "등급 미พิจารณา", ms: "Tidak Dinilai", nb: "Uvurdert", no: "Uvurdert", sr: "Неоцењено",
                 da: "Ikke vurderet", et: "Hindamata", fil: "Hindi Na-rate", tl: "Hindi Na-rate", hr: "Neocijenjeno",
                 lv: "Nav novērtēts", lt: "Neįvertinta", hu: "Besorolatlan", nl: "Niet beoordeeld", ro: "Neevaluat",
@@ -464,7 +488,7 @@
             await new Promise(resolve => setTimeout(resolve, 3000));
             if (runId && runId !== currentRunId) return;
             try {
-                const thumbRes = await fetchWithRetry(`https://thumbnails.roblox.com/v1/users/avatar-headshot?userIds=${userIds.join(',')}&size=150x150&format=Png&isCircular=false&includeBackground=true`, {}, 1500, runId);
+                const thumbRes = await fetchWithRetry(`https://thumbnails.roblox.com/v1/users/avatar-headshot?userIds=${userIds.join(',')}&size=150x150&format=Png&isCircular=false&includeBackground=true&includeProfileFrame=true`, {}, 1500, runId);
                 if (runId && runId !== currentRunId) return;
                 if (!thumbRes || !thumbRes.ok) {
                     pollPendingThumbnails(userIds, friendsList, runId);
@@ -485,8 +509,23 @@
                         const img = document.querySelector(`img[data-user-id="${t.targetId}"]`);
                         if (img) img.src = t.imageUrl;
                     } else if (t.state === "Blocked") {
+                        if (friendsList) {
+                            const friend = friendsList.find(f => f.id === t.targetId);
+                            if (friend) friend.avatarUrl = ICON_BLOCKED;
+                        }
                         const idx = userIds.indexOf(t.targetId);
                         if (idx !== -1) userIds.splice(idx, 1);
+                        const img = document.querySelector(`img[data-user-id="${t.targetId}"]`);
+                        if (img) img.src = ICON_BLOCKED;
+                    } else if (t.state === "Error") {
+                        if (friendsList) {
+                            const friend = friendsList.find(f => f.id === t.targetId);
+                            if (friend) friend.avatarUrl = ICON_BROKEN;
+                        }
+                        const idx = userIds.indexOf(t.targetId);
+                        if (idx !== -1) userIds.splice(idx, 1);
+                        const img = document.querySelector(`img[data-user-id="${t.targetId}"]`);
+                        if (img) img.src = ICON_BROKEN;
                     } else {
                         remainingIds.push(t.targetId);
                     }
@@ -743,7 +782,7 @@
                 });
 
                 const thumbPromises = mutualChunks.map(async (chunk) => {
-                    const thumbRes = await fetchWithRetry(`https://thumbnails.roblox.com/v1/users/avatar-headshot?userIds=${chunk.join(',')}&size=150x150&format=Png&isCircular=false&includeBackground=true`, {}, 1500, runId);
+                    const thumbRes = await fetchWithRetry(`https://thumbnails.roblox.com/v1/users/avatar-headshot?userIds=${chunk.join(',')}&size=150x150&format=Png&isCircular=false&includeBackground=true&includeProfileFrame=true`, {}, 1500, runId);
                     if (!thumbRes || !thumbRes.ok) return [];
                     const thumbData = await thumbRes.json();
                     return thumbData.data || [];
@@ -770,15 +809,25 @@
                 const pendingThumbnails = [];
                 const friendsWithThumbs = friends.map(f => {
                     const t = thumbs.find(item => item.targetId === f.id);
-                    const completed = t && t.state === "Completed" && t.imageUrl;
-                    if (!completed) {
-                        if (!t || t.state !== "Blocked") {
+                    let avatarUrl = "https://tr.rbxcdn.com/30day-avatarheadshot-75x75-png/150/150/AvatarHeadshot/Png/noFilter";
+
+                    if (t) {
+                        if (t.state === "Completed" && t.imageUrl) {
+                            avatarUrl = t.imageUrl;
+                        } else if (t.state === "Blocked") {
+                            avatarUrl = ICON_BLOCKED;
+                        } else if (t.state === "Error") {
+                            avatarUrl = ICON_BROKEN;
+                        } else {
                             pendingThumbnails.push(f.id);
                         }
+                    } else {
+                        pendingThumbnails.push(f.id);
                     }
+
                     return {
                         ...f,
-                        avatarUrl: completed ? t.imageUrl : "https://tr.rbxcdn.com/30day-avatarheadshot-75x75-png/150/150/AvatarHeadshot/Png/noFilter",
+                        avatarUrl: avatarUrl,
                         hasVerifiedBadge: f.hasVerifiedBadge || false,
                         presence: { userPresenceType: 0 }
                     };
@@ -950,7 +999,7 @@
                             <div role="presentation" class="absolute inset-[0] transition-colors group-hover/interactable:bg-[var(--color-state-hover)] group-active/interactable:bg-[var(--color-state-press)] group-disabled/interactable:bg-none"></div>
                             <div class="avatar flex-shrink-0" style="width: 44px; height: 44px; position: relative;">
                                 <span class="thumbnail-2d-container avatar-card-image" style="width: 44px; height: 44px; display: block; border-radius: 50%; overflow: hidden;">
-                                    <img class="bg-surface-200" data-user-id="${f.id}" src="${f.avatarUrl}" style="width: 44px; height: 44px; object-fit: cover; display: block;" />
+                                    <img class="bg-surface-200" data-user-id="${f.id}" src="${f.avatarUrl}" onerror="this.onerror=null;this.src='${ICON_BROKEN}';" style="width: 44px; height: 44px; object-fit: cover; display: block;" />
                                 </span>
                                 <div data-status-user-id="${f.id}">${getPresenceHTML(f.presence)}</div>
                             </div>
