@@ -115,53 +115,53 @@
 
         const BUTTON_TEXTS = {
             en: { singular: "1 Mutual", plural: "{count} Mutuals" },
-            ar: { singular: "1 مشترك", plural: "{count} مشتركين" },
-            id: { singular: "1 Saling Kenal", plural: "{count} Saling Kenal" },
-            de: { singular: "1 gemeinsam", plural: "{count} gemeinsame" },
-            es: { singular: "1 en común", plural: "{count} en común" },
-            fr: { singular: "1 en commun", plural: "{count} en commun" },
-            it: { singular: "1 in comune", plural: "{count} in comune" },
-            pl: { singular: "1 wspólny", plural: "{count} wspólnych" },
-            pt: { singular: "1 em comum", plural: "{count} em comum" },
-            vi: { singular: "1 chung", plural: "{count} chung" },
+            ar: { singular: "1 جهة تواصل مشتركة", plural: "{count} جهات تواصل مشتركة" },
+            id: { singular: "1 Bersama", plural: "{count} Bersama" },
+            de: { singular: "1 Gegenseitig", plural: "{count} Gegenseitig" },
+            es: { singular: "1 Mutua", plural: "{count} Mutuas" },
+            fr: { singular: "1 Mutuelle", plural: "{count} Mutuelles" },
+            it: { singular: "1 In comune", plural: "{count} In comune" },
+            pl: { singular: "1 Wspólny znajomy", plural: "{count} Wspólni znajomi" },
+            pt: { singular: "1 Mútua", plural: "{count} Mutuais" },
+            vi: { singular: "1 Chung", plural: "{count} Chung" },
             tr: { singular: "1 Ortak", plural: "{count} Ortak" },
-            hi: { singular: "1 आपसी", plural: "{count} आपसी" },
-            th: { singular: "ร่วมกัน 1 คน", plural: "ร่วมกัน {count} คน" },
-            zh: { singular: "1 个共同好友", plural: "{count} 个共同好友" },
-            zh_cn: { singular: "1 个共同好友", plural: "{count} 个共同好友" },
-            zh_tw: { singular: "1 個共同好友", plural: "{count} 個共同好友" },
-            zh_hans: { singular: "1 个共同好友", plural: "{count} 个共同好友" },
-            zh_hant: { singular: "1 個共同好友", plural: "{count} 個共同好友" },
-            ja: { singular: "1人の共通のフレンド", plural: "{count}人の共通のフレンド" },
-            ko: { singular: "1명의 함께 아는 친구", plural: "{count}명의 함께 아는 친구" },
-            ms: { singular: "1 Mutual", plural: "{count} Mutual" },
-            nb: { singular: "1 felles", plural: "{count} felles" },
-            no: { singular: "1 felles", plural: "{count} felles" },
-            sr: { singular: "1 заједнички", plural: "{count} заједничких" },
-            da: { singular: "1 fælles", plural: "{count} fælles" },
-            et: { singular: "1 ühine", plural: "{count} ühist" },
-            fil: { singular: "1 Mutual", plural: "{count} Mutual" },
-            tl: { singular: "1 Mutual", plural: "{count} Mutual" },
-            hr: { singular: "1 zajednički", plural: "{count} zajedničkih" },
-            lv: { singular: "1 kopīgs", plural: "{count} kopīgi" },
-            lt: { singular: "1 bendras", plural: "{count} bendri" },
-            hu: { singular: "1 közös", plural: "{count} közös" },
-            nl: { singular: "1 gemeenschappelijke vriend", plural: "{count} gemeenschappelijk" },
-            ro: { singular: "1 comun", plural: "{count} comuni" },
-            sq: { singular: "1 i përbashkët", plural: "{count} të përbashkët" },
-            sl: { singular: "1 skupni", plural: "{count} skupnih" },
-            sk: { singular: "1 spoločných", plural: "{count} spoločných" },
-            fi: { singular: "1 yhteinen", plural: "{count} yhteistä" },
-            sv: { singular: "1 gemensam", plural: "{count} gemensamma" },
-            uk: { singular: "1 спільний", plural: "{count} спільних" },
-            cs: { singular: "1 společný", plural: "{count} společných" },
-            el: { singular: "1 κοινός", plural: "{count} κοινοί" },
-            bs: { singular: "1 zajednički", plural: "{count} zajedničkih" },
-            bg: { singular: "1 общ", plural: "{count} общи" },
-            ru: { singular: "1 общий", plural: "{count} общих" },
-            kk: { singular: "1 ортақ", plural: "{count} ортақ" },
-            bn: { singular: "1 জন পারস্পরিক", plural: "{count} জন পারস্পরিক" },
-            si: { singular: "1 පාරස්පරික", plural: "{count} පාරස්පරික" },
+            hi: { singular: "1 म्यूचुअल", plural: "{count} म्यूचुअल्स" },
+            th: { singular: "1 คนรู้จักร่วมกัน", plural: "{count} คนรู้จักร่วมกัน" },
+            zh: { singular: "1 共同联系人", plural: "{count} 共同联系人" },
+            zh_cn: { singular: "1 共同联系人", plural: "{count} 共同联系人" },
+            zh_tw: { singular: "1 共同聯絡對象", plural: "{count} 共同聯絡對象" },
+            zh_hans: { singular: "1 共同联系人", plural: "{count} 共同联系人" },
+            zh_hant: { singular: "1 共同聯絡對象", plural: "{count} 共同聯絡對象" },
+            ja: { singular: "1共通", plural: "{count}共通" },
+            ko: { singular: "1 공통 인맥", plural: "{count} 공통 인맥" },
+            ms: { singular: "1 Bersama", plural: "{count} Bersama" },
+            nb: { singular: "1 Felles", plural: "{count} Felles" },
+            no: { singular: "1 Felles", plural: "{count} Felles" },
+            sr: { singular: "1 Заједнички", plural: "{count} Заједничких" },
+            da: { singular: "1 Fælles", plural: "{count} Fælles" },
+            et: { singular: "1 Ühine", plural: "{count} Ühist" },
+            fil: { singular: "1 Magkasama", plural: "{count} Magkasama" },
+            tl: { singular: "1 Magkasama", plural: "{count} Magkasama" },
+            hr: { singular: "1 Zajednički", plural: "{count} Zajedničkih" },
+            lv: { singular: "1 Kopīgs", plural: "{count} Kopīgi" },
+            lt: { singular: "1 Bendras", plural: "{count} Bendri" },
+            hu: { singular: "1 Közös", plural: "{count} Közös" },
+            nl: { singular: "1 Gemeenschappelijke", plural: "{count} Gemeenschappelijke" },
+            ro: { singular: "1 Comun", plural: "{count} Comuni" },
+            sq: { singular: "1 I përbashkët", plural: "{count} Të përbashkët" },
+            sl: { singular: "1 Skupni", plural: "{count} Skupnih" },
+            sk: { singular: "1 Spoločný", plural: "{count} Spoločných" },
+            fi: { singular: "1 Yhteinen", plural: "{count} Yhteistä" },
+            sv: { singular: "1 Gemensam", plural: "{count} Gemensamma" },
+            uk: { singular: "1 Спільний", plural: "{count} Спільних" },
+            cs: { singular: "1 Společný", plural: "{count} Společných" },
+            el: { singular: "1 Κοινός", plural: "{count} Κοινοί" },
+            bs: { singular: "1 Zajednički", plural: "{count} Zajedničkih" },
+            bg: { singular: "1 Общ", plural: "{count} Общи" },
+            ru: { singular: "1 Общий", plural: "{count} Общих" },
+            kk: { singular: "1 Ортақ", plural: "{count} Ортақ" },
+            bn: { singular: "1 মিউচুয়াল", plural: "{count} মিউচুয়াল" },
+            si: { singular: "1 පොදු", plural: "{count} පොදු" },
             my: { singular: "1 မိတ်ဆွေအပြန်အလှန်", plural: "{count} မိတ်ဆွေအပြန်အလှန်" },
             ka: { singular: "1 საერთო", plural: "{count} საერთო" },
             km: { singular: "1 រួមគ្នា", plural: "{count} រួមគ្នា" }
@@ -169,33 +169,33 @@
 
         const TITLE_TEXTS = {
             en: { singular: "1 mutual friend", plural: "{count} mutual friends" },
-            ar: { singular: "صديق مشترك واحد", plural: "{count} أصدقاء مشتركين" },
-            id: { singular: "1 teman saling kenal", plural: "{count} teman saling kenal" },
+            ar: { singular: "صديق مشترك واحد", plural: "{count} من الأصدقاء المشتركين" },
+            id: { singular: "1 teman bersama", plural: "{count} teman bersama" },
             de: { singular: "1 gemeinsamer Freund", plural: "{count} gemeinsame Freunde" },
-            es: { singular: "1 amigo en común", plural: "{count} amigos en común" },
+            es: { singular: "1 amistad en común", plural: "{count} amigos en común" },
             fr: { singular: "1 ami en commun", plural: "{count} amis en commun" },
-            it: { singular: "1 amico in comune", plural: "{count} amici in comune" },
-            pl: { singular: "1 wspólny znajomy", plural: "{count} wspólnych znajomych" },
+            it: { singular: "1 amico in comune", plural: "{count} amici comuni" },
+            pl: { singular: "1 wspólny znajomy", plural: "{count} wspólni znajomi" },
             pt: { singular: "1 amigo em comum", plural: "{count} amigos em comum" },
-            vi: { singular: "1 bạn chung", plural: "{count} bạn chung" },
+            vi: { singular: "1 bạn bè chung", plural: "{count} bạn bè chung" },
             tr: { singular: "1 ortak arkadaş", plural: "{count} ortak arkadaş" },
-            hi: { singular: "1 आपसी मित्र", plural: "{count} आपसी मित्र" },
-            th: { singular: "เพื่อนร่วมกัน 1 คน", plural: "เพื่อนร่วมกัน {count} คน" },
-            zh: { singular: "1 个共同好友", plural: "{count} 个共同好友" },
-            zh_cn: { singular: "1 个共同好友", plural: "{count} 个共同好友" },
-            zh_tw: { singular: "1 個共同好友", plural: "{count} 個共同好友" },
-            zh_hans: { singular: "1 个共同好友", plural: "{count} 个共同好友" },
-            zh_hant: { singular: "1 個共同好友", plural: "{count} 個共同好友" },
-            ja: { singular: "1人の共通のフレンド", plural: "{count}人の共通のフレンド" },
-            ko: { singular: "1명의 함께 아는 친구", plural: "{count}명의 함께 아는 친구" },
-            ms: { singular: "1 rakan mutual", plural: "{count} rakan mutual" },
+            hi: { singular: "1 कॉमन फ़्रेंड", plural: "{count} कॉमन फ्रेंड्स" },
+            th: { singular: "มีเพื่อนร่วมกัน 1 คน", plural: "มีเพื่อนร่วมกัน {count} คน" },
+            zh: { singular: "1 位共同好友", plural: "{count} 位共同好友" },
+            zh_cn: { singular: "1 位共同好友", plural: "{count} 位共同好友" },
+            zh_tw: { singular: "1 位共同好友", plural: "{count} 位共同好友" },
+            zh_hans: { singular: "1 位共同好友", plural: "{count} 位共同好友" },
+            zh_hant: { singular: "1 位共同好友", plural: "{count} 位共同好友" },
+            ja: { singular: "共通の友達1人", plural: "共通の友達{count}人" },
+            ko: { singular: "서로 아는 친구 1명", plural: "서로 아는 친구 {count}명" },
+            ms: { singular: "1 rakan bersama", plural: "{count} rakan bersama" },
             nb: { singular: "1 felles venn", plural: "{count} felles venner" },
             no: { singular: "1 felles venn", plural: "{count} felles venner" },
             sr: { singular: "1 заједнички пријатељ", plural: "{count} заједничких пријатеља" },
             da: { singular: "1 fælles ven", plural: "{count} fælles venner" },
             et: { singular: "1 ühine sõber", plural: "{count} ühist sõpra" },
-            fil: { singular: "1 mutual friend", plural: "{count} mutual friends" },
-            tl: { singular: "1 mutual friend", plural: "{count} mutual friends" },
+            fil: { singular: "1 magkasamang kaibigan", plural: "{count} magkasamang kaibigan" },
+            tl: { singular: "1 magkasamang kaibigan", plural: "{count} magkasamang kaibigan" },
             hr: { singular: "1 zajednički prijatelj", plural: "{count} zajedničkih prijatelja" },
             lv: { singular: "1 kopīgs draugs", plural: "{count} kopīgi draugi" },
             lt: { singular: "1 bendras draugas", plural: "{count} bendri draugai" },
@@ -204,7 +204,7 @@
             ro: { singular: "1 prieten comun", plural: "{count} prieteni comuni" },
             sq: { singular: "1 mik i përbashkët", plural: "{count} miq të përbashkët" },
             sl: { singular: "1 skupni prijatelj", plural: "{count} skupnih prijateljev" },
-            sk: { singular: "1 spoločného priateľa", plural: "{count} spoločných priateľov" },
+            sk: { singular: "1 spoločný priateľ", plural: "{count} spoločných priateľov" },
             fi: { singular: "1 yhteinen kaveri", plural: "{count} yhteistä kaveria" },
             sv: { singular: "1 gemensam vän", plural: "{count} gemensamma vänner" },
             uk: { singular: "1 спільний друг", plural: "{count} спільних друзів" },
@@ -215,8 +215,8 @@
             ru: { singular: "1 общий друг", plural: "{count} общих друзей" },
             kk: { singular: "1 ортақ дос", plural: "{count} ортақ дос" },
             bn: { singular: "1 জন পারস্পরিক বন্ধু", plural: "{count} জন পারস্পরিক বন্ধু" },
-            si: { singular: "1 පාරස්පරික මිතුරා", plural: "{count} පාරස්පරික මිතුරන්" },
-            my: { singular: "1 မိတ်ဆွေအပြန်အလှန် မိတ်ဆွေ", plural: "{count} မိတ်ဆွေအပြန်အလှန် မိတ်ဆွေများ" },
+            si: { singular: "1 පොදු මිතුරා", plural: "{count} පොදු මිතුරන්" },
+            my: { singular: "1 ဘုံသူငယ်ချင်း", plural: "{count} ဘုံသူငယ်ချင်းများ" },
             ka: { singular: "1 საერთო მეგობარი", plural: "{count} საერთო მეგობარი" },
             km: { singular: "មិត្តរួមគ្នា 1 នាក់", plural: "មិត្តរួមគ្នា {count} នាក់" }
         };
@@ -228,20 +228,20 @@
             de: "Beitreten",
             es: "Unirse",
             fr: "Rejoindre",
-            it: "Partecipa",
+            it: "Unisciti",
             pl: "Dołącz",
             pt: "Entrar",
-            vi: "Tham gia",
+            vi: "Tham Gia",
             tr: "Katıl",
-            hi: "शामिल हों",
+            hi: "जॉइन करें",
             th: "เข้าร่วม",
             zh: "加入",
             zh_cn: "加入",
             zh_tw: "加入",
             zh_hans: "加入",
             zh_hant: "加入",
-            ja: "参加",
-            ko: "참여",
+            ja: "参加する",
+            ko: "참가",
             ms: "Sertai",
             nb: "Bli med",
             no: "Bli med",
@@ -275,134 +275,6 @@
             km: "ចូលរួម"
         };
 
-        const MATURITY_LABEL_TEXTS = {
-            en: "Maturity",
-            ar: "المحتوى الخاص بالبالغين",
-            id: "Maturitas",
-            de: "Altersempfehlung",
-            es: "Madurez",
-            fr: "Maturité",
-            it: "Maturità",
-            pl: "Dojrzałość",
-            pt: "Maturidade",
-            vi: "Mức độ phù hợp",
-            tr: "Olgunluk",
-            hi: "परिपक्वता",
-            th: "ระดับความเหมาะสม",
-            zh: "分级",
-            zh_cn: "分级",
-            zh_tw: "分級",
-            zh_hans: "分级",
-            zh_hant: "分級",
-            ja: "対象年齢",
-            ko: "연령 등급",
-            ms: "Kematangan",
-            nb: "Aldersgrense",
-            no: "Aldersgrense",
-            sr: "Зрелост",
-            da: "Aldersgrænse",
-            et: "Küpsus",
-            fil: "Kagulangang-isip",
-            tl: "Kagulangang-isip",
-            hr: "Zrelost",
-            lv: "Nobriedums",
-            lt: "Brandumas",
-            hu: "Korhatár",
-            nl: "Geschiktheid",
-            ro: "Maturitate",
-            sq: "Pjekuria",
-            sl: "Zrelost",
-            sk: "Vekové obmedzenie",
-            fi: "Ikäraja",
-            sv: "Åldersgräns",
-            uk: "Віковий рейтинг",
-            cs: "Věková přístupnost",
-            el: "Καταλληλότητα",
-            bs: "Zrelost",
-            bg: "Зрялост",
-            ru: "Возрастной рейтинг",
-            kk: "Жас санаты",
-            bn: "বয়সের স্তর",
-            si: "පරිණතභාවය",
-            my: "အသက်အရွယ် သတ်မှတ်ချက်",
-            ka: "ასაკობრივი ზღვარი",
-            km: "កម្រិតអាយុ"
-        };
-
-        const MATURITY_VALUE_TEXTS = {
-            Minimal: {
-                en: "Minimal", ar: "محدود للغاية", id: "Minimal", de: "Minimal", es: "Mínima",
-                fr: "Minimale", it: "Minima", pl: "Minimalna", pt: "Mínima", vi: "Rất nhẹ",
-                tr: "En az", hi: "न्यूनतम", th: "น้อยที่สุด", zh: "极轻微", zh_cn: "极轻微",
-                zh_tw: "極輕微", zh_hans: "极轻微", zh_hant: "極輕微", ja: "極めて軽微",
-                ko: "매우 낮음", ms: "Minimal", nb: "Minimal", no: "Minimal", sr: "Минимално",
-                da: "Minimal", et: "Minimaalne", fil: "Napakababa", tl: "Napakababa", hr: "Minimalno",
-                lv: "Minimāls", lt: "Minimalus", hu: "Minimális", nl: "Minimaal", ro: "Minimă",
-                sq: "Minimale", sl: "Minimalno", sk: "Minimálna", fi: "Vähäinen", sv: "Minimal",
-                uk: "Мінімальний", cs: "Minimální", el: "Ελάχιστη", bs: "Minimalno", bg: "Минимална",
-                ru: "Минимальный", kk: "Минималды", bn: "ন্যূনতম", si: "අවම", my: "အနည်းဆုံး",
-                ka: "მინიმალური", km: "តិចតួចបំផុត"
-            },
-            Mild: {
-                en: "Mild", ar: "بسيط", id: "Ringan", de: "Gering", es: "Leve",
-                fr: "Légère", it: "Lieve", pl: "Niska", pt: "Leve", vi: "Nhẹ",
-                tr: "Hafif", hi: "हल्का", th: "เบาบาง", zh: "轻微", zh_cn: "轻微",
-                zh_tw: "輕微", zh_hans: "轻微", zh_hant: "輕微", ja: "軽微",
-                ko: "낮음", ms: "Ringan", nb: "Mild", no: "Mild", sr: "Blago",
-                da: "Mild", et: "Kerge", fil: "Bahagya", tl: "Bahagya", hr: "Blago",
-                lv: "Mērens", lt: "Švelnus", hu: "Enyhe", nl: "Licht", ro: "Ușoară",
-                sq: "E lehtë", sl: "Blago", sk: "Mierna", fi: "Lievä", sv: "Mild",
-                uk: "Помірний", cs: "Mírná", el: "Ήπια", bs: "Blago", bg: "Лека",
-                ru: "Умеренный", kk: "Жеңіл", bn: "হালকা", si: "සහනශීලී", my: "သာမန်",
-                ka: "მსუბუქი", km: "ស្រាល"
-            },
-            Moderate: {
-                en: "Moderate", ar: "معتدل", id: "Sedang", de: "Mäßig", es: "Moderada",
-                fr: "Modérée", it: "Moderata", pl: "Umiarkowana", pt: "Moderada", vi: "Vừa phải",
-                tr: "Orta", hi: "मध्यम", th: "ปานกลาง", zh: "中等", zh_cn: "中等",
-                zh_tw: "中等", zh_hans: "中等", zh_hant: "中等", ja: "中度",
-                ko: "보통", ms: "Sederhana", nb: "Moderat", no: "Moderat", sr: "Умерено",
-                da: "Moderat", et: "Mõõdukas", fil: "Katamtaman", tl: "Katamtaman", hr: "Umjereno",
-                lv: "Vidējs", lt: "Vidutinis", hu: "Közepes", nl: "Matig", ro: "Moderată",
-                sq: "E mesme", sl: "Zmerno", sk: "Stredná", fi: "Kohtalainen", sv: "Moderat",
-                uk: "Середній", cs: "Střední", el: "Μεσαία", bs: "Umjereno", bg: "Умерена",
-                ru: "Средний", kk: "Орташа", bn: "মাঝারি", si: "මධ්‍යස්ථ", my: "အသင့်အတင့်",
-                ka: "საშუალო", km: "មធ្យម"
-            },
-            Restricted: {
-                en: "Restricted", ar: "مقيد", id: "Dibatasi", de: "Eingeschränkt", es: "Restringida",
-                fr: "Restreinte", it: "Ristretta", pl: "Ograniczona", pt: "Restrita", vi: "Bị giới hạn",
-                tr: "Kısıtlı", hi: "प्रतिबंधित", th: "จำกัด", zh: "受限", zh_cn: "受限",
-                zh_tw: "受限", zh_hans: "受限", zh_hant: "受限", ja: "制限あり",
-                ko: "제한됨", ms: "Dihadkan", nb: "Begrenset", no: "Begrenset", sr: "Ограничено",
-                da: "Begrænset", et: "Piiratud", fil: "Limitado", tl: "Limitado", hr: "Ograničeno",
-                lv: "Ierobežots", lt: "Ribotas", hu: "Korlátozott", nl: "Beperkt", ro: "Restricționată",
-                sq: "E kufizuar", sl: "Omejeno", sk: "Obmedzená", fi: "Rajoitettu", sv: "Begränsad",
-                uk: "Обмежений", cs: "Omezená", el: "Περιορισμένη", bs: "Ograničeno", bg: "Ограничена",
-                ru: "Ограниченный", kk: "Шектеулі", bn: "সীমিত", si: "සීමිත", my: "ကန့်သတ်ထားသော",
-                ka: "შეზღუდული", km: "ត្រូវបានកម្រិត"
-            },
-            Unrated: {
-                en: "Unrated", ar: "غير مصنف", id: "Tidak Dinilai", de: "Nicht bewertet", es: "Sin clasificar",
-                fr: "Non évalué", it: "Non valutato", pl: "Brak oceny", pt: "Sem classificação", vi: "Chưa xếp loại",
-                tr: "Derecelendirilmemiş", hi: "अनरेटेड", th: "ยังไม่จัดประเภท", zh: "未分级", zh_cn: "未分级",
-                zh_tw: "未分級", zh_hans: "未分级", zh_hant: "未分級", ja: "未評価",
-                ko: "등급 미พิจารณา", ms: "Tidak Dinilai", nb: "Uvurdert", no: "Uvurdert", sr: "Неоцењено",
-                da: "Ikke vurderet", et: "Hindamata", fil: "Hindi Na-rate", tl: "Hindi Na-rate", hr: "Neocijenjeno",
-                lv: "Nav novērtēts", lt: "Neįvertinta", hu: "Besorolatlan", nl: "Niet beoordeeld", ro: "Neevaluat",
-                sq: "I pavlerësuar", sl: "Neocenjeno", sk: "Nehodnotené", fi: "Arvioimaton", sv: "Ej bedömd",
-                uk: "Без рейтингу", cs: "Nehodnoceno", el: "Χωρίς αξιολόγηση", bs: "Neocijenjeno", bg: "Без оценка",
-                ru: "Без рейтинга", kk: "Бағаланбаған", bn: "রেটিং ছাড়া", si: "වර්ගීකරණය කර නැත", my: "အဆင့်မသတ်မှတ်ရသေးပါ",
-                ka: "შეუფასებელი", km: "មិនទាន់បានវាយតម្លៃ"
-            }
-        };
-        MATURITY_VALUE_TEXTS.AllAges = MATURITY_VALUE_TEXTS.Minimal;
-        MATURITY_VALUE_TEXTS["All Ages"] = MATURITY_VALUE_TEXTS.Minimal;
-        MATURITY_VALUE_TEXTS["All-Ages"] = MATURITY_VALUE_TEXTS.Minimal;
-        MATURITY_VALUE_TEXTS["9+"] = MATURITY_VALUE_TEXTS.Mild;
-        MATURITY_VALUE_TEXTS["13+"] = MATURITY_VALUE_TEXTS.Moderate;
-        MATURITY_VALUE_TEXTS["17+"] = MATURITY_VALUE_TEXTS.Restricted;
-
         let currentRunId = 0;
 
         const getLangCode = () => {
@@ -431,27 +303,6 @@
             const langEntry = dict[fullCode] || dict[baseCode] || dict.en;
             const template = count === 1 ? langEntry.singular : langEntry.plural;
             return template.replace("{count}", count);
-        };
-
-        const getMaturityTranslation = (value) => {
-            if (!value) return getSimpleTranslation(MATURITY_VALUE_TEXTS.Unrated);
-            const valStr = String(value).trim().toLowerCase();
-            if (valStr.includes("mild") || valStr.includes("9+")) {
-                return getSimpleTranslation(MATURITY_VALUE_TEXTS.Mild);
-            }
-            if (valStr.includes("moderate") || valStr.includes("13+")) {
-                return getSimpleTranslation(MATURITY_VALUE_TEXTS.Moderate);
-            }
-            if (valStr.includes("restricted") || valStr.includes("17+") || valStr.includes("18+")) {
-                return getSimpleTranslation(MATURITY_VALUE_TEXTS.Restricted);
-            }
-            if (valStr.includes("minimal") || valStr.includes("all") || valStr.includes("0+")) {
-                return getSimpleTranslation(MATURITY_VALUE_TEXTS.Minimal);
-            }
-            const key = Object.keys(MATURITY_VALUE_TEXTS).find(k => k.toLowerCase() === valStr) || value;
-            const dict = MATURITY_VALUE_TEXTS[key];
-            if (!dict) return value;
-            return getSimpleTranslation(dict);
         };
 
         const fetchWithRetry = async (url, options = {}, delay = 1500, runId = null) => {
@@ -576,7 +427,7 @@
             if (gameDetailsCache[cacheKey]) return gameDetailsCache[cacheKey];
             if (gameDetailsCache[universeId]) return gameDetailsCache[universeId];
             try {
-                const langCode = getLangCode();
+                const langCode = getLangCode().replace(/_/g, "-");
                 const csrf = getCsrfToken();
 
                 const results = await Promise.all([
@@ -584,7 +435,23 @@
                         credentials: "include",
                         headers: { "Accept-Language": langCode }
                     }),
-                    fetchWithRetry(`https://thumbnails.roblox.com/v1/games/icons?universeIds=${universeId}&size=150x150&format=Png&isCircular=false`),
+                    fetchWithRetry(`https://thumbnails.roblox.com/v1/batch`, {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                            "Accept-Language": langCode
+                        },
+                        body: JSON.stringify([{
+                            requestId: `${universeId}::GameIcon:150x150:webp:regular:::false:false`,
+                            type: "GameIcon",
+                            targetId: parseInt(universeId, 10),
+                            token: "",
+                            format: "webp",
+                            size: "150x150",
+                            version: ""
+                        }]),
+                        credentials: "include"
+                    }),
                     fetchWithRetry(`https://apis.roblox.com/profile-platform-api/v1/profiles/get`, {
                         method: "POST",
                         headers: {
@@ -605,7 +472,7 @@
                 const thumbRes = results[1];
                 const maturityRes = results[2];
 
-                let rawMaturity = null;
+                let maturity = "";
 
                 if (maturityRes && maturityRes.ok) {
                     try {
@@ -613,7 +480,7 @@
                         const playing = matData.components?.CurrentlyPlaying;
                         const summary = playing?.ageRecommendation?.ageRecommendationSummary?.ageRecommendation;
                         if (summary) {
-                            rawMaturity = summary.contentMaturity || summary.displayName;
+                            maturity = summary.displayNameWithHeaderShort || summary.displayName || "";
                         }
                     } catch {}
                 }
@@ -623,13 +490,13 @@
                 const gameInfo = detailsData.data?.[0] || {};
                 const thumbInfo = thumbData.data?.[0] || {};
 
-                if (!rawMaturity) {
-                    rawMaturity = gameInfo.ageGuidelines?.ageRecommendationType || gameInfo.ageRating || "Unrated";
+                if (!maturity) {
+                    maturity = gameInfo.ageGuidelines?.ageRecommendationType || gameInfo.ageRating || "";
                 }
 
                 const details = {
                     name: gameInfo.name || "Unknown Game",
-                    maturity: getMaturityTranslation(rawMaturity),
+                    maturity: maturity,
                     iconUrl: thumbInfo.imageUrl || "https://tr.rbxcdn.com/30day-item-150x150-png/150/150/Decal/Png"
                 };
                 gameDetailsCache[cacheKey] = details;
@@ -649,7 +516,6 @@
             if (activeTooltip) activeTooltip.remove();
             const tooltip = document.createElement("div");
             tooltip.className = "custom-mutual-tooltip";
-            const maturityLabel = getSimpleTranslation(MATURITY_LABEL_TEXTS);
             tooltip.innerHTML = `
                 <div class="currently-playing-card flex items-center gap-small padding-y-small padding-x-medium radius-medium bg-surface-100 stroke-standard stroke-default" style="box-shadow: 0 4px 12px rgba(0,0,0,0.15); background-color: var(--color-surface-100);">
                     <span class="thumbnail-2d-container currently-playing-card-thumbnail width-[48px] height-[48px] shrink-0 radius-small overflow-hidden">
@@ -657,7 +523,7 @@
                     </span>
                     <div class="flex flex-col min-width-0">
                         <span dir="auto" class="text-title-medium content-emphasis text-truncate-end text-no-wrap max-width-[200px]">${details.name}</span>
-                        <span dir="auto" class="text-body-medium content-default text-truncate-end text-no-wrap max-width-[200px]">${maturityLabel}: ${details.maturity}</span>
+                        <span dir="auto" class="text-body-medium content-default text-truncate-end text-no-wrap max-width-[200px]">${details.maturity}</span>
                     </div>
                 </div>
             `;
